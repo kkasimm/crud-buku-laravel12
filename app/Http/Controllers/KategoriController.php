@@ -35,7 +35,7 @@ class KategoriController extends Controller
             'nama_kategori' => 'required'
         ]);
 
-        kategori::crate($validatedData);
+        kategori::create($validatedData);
 
         return Redirect()->route('kategori.index');
     }
