@@ -1,5 +1,5 @@
 <div class="footer text-center text-muted small">
-    © 2024 Kkasimm
+    &copy; 2025 Kkasimm
 </div>
 </div>
 </div>

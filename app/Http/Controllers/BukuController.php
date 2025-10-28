@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\buku;
+use App\Models\penerbit;
+use App\Models\kategori;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -12,7 +14,8 @@ class BukuController extends Controller
      */
     public function index()
     {
-        //
+        $allkate = buku::all();
+        return view('buku.index', compact('allkate'));
     }
 
     /**
@@ -20,7 +23,9 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        $penerbit = penerbit::all();
+        $kategori = kategori::all();
+        return view('buku.create', compact('penerbit', 'kategori'));
     }
 
     /**
@@ -28,7 +33,18 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validasi
+        $validatedData = $request->validate([
+            'judul' => 'required',
+            'penulis' => 'required',
+            'tahun_terbit' => 'required|integer:4',
+            'kategori_id' => 'required',
+            'penerbit_id' => 'required'
+        ]);
+
+        buku::create($validatedData);
+
+        return Redirect()->route('buku.index');
     }
 
     /**
@@ -36,7 +52,7 @@ class BukuController extends Controller
      */
     public function show(buku $buku)
     {
-        //
+        return view('buku.show', compact('buku'));
     }
 
     /**
@@ -44,7 +60,9 @@ class BukuController extends Controller
      */
     public function edit(buku $buku)
     {
-        //
+        $penerbit = penerbit::all();
+        $kategori = kategori::all();
+        return view('buku.edit', compact('buku', 'penerbit', 'kategori'));
     }
 
     /**
@@ -52,7 +70,18 @@ class BukuController extends Controller
      */
     public function update(Request $request, buku $buku)
     {
-        //
+        //validasi
+        $validatedData = $request->validate([
+            'judul' => 'required',
+            'penulis' => 'required',
+            'tahun_terbit' => 'required|integer:4',
+            'kategori_id' => 'required',
+            'penerbit_id' => 'required'
+        ]);
+
+        $buku->update($validatedData);
+
+        return Redirect()->route('buku.index');
     }
 
     /**
@@ -60,6 +89,7 @@ class BukuController extends Controller
      */
     public function destroy(buku $buku)
     {
-        //
+        $buku->delete();
+        return Redirect()->route('buku.index');
     }
 }
